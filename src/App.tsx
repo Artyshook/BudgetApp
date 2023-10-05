@@ -1,9 +1,7 @@
-import FlashcardForm from "./addFlashcard/FlashcardForm";
+import FlashcardForm from "./components/addFlashcard/FlashcardForm";
 
 function App() {
-    return (
-            <FlashcardForm />
-    );
+  return <FlashcardForm />;
 }
 
 export default App;

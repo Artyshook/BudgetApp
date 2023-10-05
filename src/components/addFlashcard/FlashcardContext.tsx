@@ -13,8 +13,8 @@ interface FlashcardContextProps {
 
 const initialContext: FlashcardContextProps = {
     flashcards: [],
-    setFlashcards: () => {}, // Initial value for setFlashcards
-    addFlashcard: () => {} // Initial value for addFlashcard
+    setFlashcards: () => {},
+    addFlashcard: () => {}
 };
 
 export const FlashcardContext = createContext<FlashcardContextProps>(initialContext);
@@ -28,7 +28,6 @@ export function FlashcardProvider({ children }: FlashcardProviderProps): JSX.Ele
 
     const addFlashcard = (flashcard: Flashcard) => {
         setFlashcards([...flashcards, flashcard]);
-        // Add logic to send the flashcard to the server/database here
     };
 
     return (
