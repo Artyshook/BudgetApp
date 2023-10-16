@@ -9,7 +9,7 @@ export interface ITransaction extends Document  {
     category_type: string
 }
 
-const transactionSchema: Schema = new Schema({
+const TransactionSchema: Schema = new Schema({
     amount: { type: Number, required: true },
     category: { type: String, required: true },
     description: { type: String },
@@ -18,7 +18,7 @@ const transactionSchema: Schema = new Schema({
     category_type: { type: String, required: true } // You might want to define an enum for category types
 });
 
-const Transaction: Model<ITransaction> = mongoose.model<ITransaction, Model<ITransaction>>("Transaction", transactionSchema);
+const Transaction: Model<ITransaction> = mongoose.model<ITransaction, Model<ITransaction>>("Transaction", TransactionSchema);
 
 
 export default Transaction

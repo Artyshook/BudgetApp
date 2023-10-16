@@ -1,5 +1,5 @@
 
-export interface CashFlowProps {
+export interface TransactionProps {
     amount: number
     category: string
     description: string

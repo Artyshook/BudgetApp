@@ -1,10 +1,10 @@
 import axios from 'axios'
-import { CashFlowProps } from './types'
+import { TransactionProps } from './types'
 
 export const getTransactions = async (userID: string, date: Date) => {
     try {
         const result = await axios.get(
-            'http://localhost:1000/api/transactions',
+            'http://localhost:1000/transactions',
             {
                 params: {
                     monthYear: date,
@@ -18,10 +18,10 @@ export const getTransactions = async (userID: string, date: Date) => {
     }
 }
 
-export const createTranTransaction = async (data: CashFlowProps) => {
+export const createTranTransaction = async (data: TransactionProps) => {
     try {
         const result = await axios.post(
-            'http://localhost:1000/api/transaction',
+            'http://localhost:1000/transaction',
             data
         )
 
@@ -31,7 +31,7 @@ export const createTranTransaction = async (data: CashFlowProps) => {
     }
 }
 
-export const updateTransaction = async (data: CashFlowProps) => {
+export const updateTransaction = async (data: TransactionProps) => {
     try {
         const result = await axios.post(
             'http://localhost:1000/transaction/:id',

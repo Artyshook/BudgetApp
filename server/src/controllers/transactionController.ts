@@ -1,7 +1,9 @@
 import Transaction, {ITransaction} from "../models/Transaction";
+import {Request, Response} from "express";
 
 
-const getTransactions = async (req, res) => {
+const getTransactions = async (req: Request, res: Response) => {
+    console.log('here!!!!')
     try {
         const { monthYear, userID } = req.query;
         if(!userID) return res.status(400).json({ message: 'No userId provided' });
@@ -34,16 +36,16 @@ const getTransactions = async (req, res) => {
     }
 };
 
-const addTransaction = async (req, res) => {
+const addTransaction = async (req: Request, res: Response) => {
     try {
-        const { amount, category, description, start_date, userId, saving_goal_Id,category_type} = req.body;
+        const { amount, category, description, start_date, userId,category_type} = req.body;
+        console.log(amount, category, description, start_date, userId,category_type)
         const newTransaction = new Transaction({
             amount: amount,
             category: category,
             description: description,
             start_date: start_date,
             userId: userId,
-            saving_goal_Id: saving_goal_Id,
             category_type: category_type
         });
 
@@ -56,7 +58,7 @@ const addTransaction = async (req, res) => {
     }
 };
 
-const updateTransaction = async (req, res) => {
+const updateTransaction = async (req: Request, res: Response) => {
     try {
         const { id, amount, category, description, start_date, userId, category_type } = req.body;
 
@@ -87,7 +89,7 @@ const updateTransaction = async (req, res) => {
     }
 };
 
-const deleteTransaction = async (req, res) => {
+const deleteTransaction = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
 
