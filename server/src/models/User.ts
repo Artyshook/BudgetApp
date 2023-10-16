@@ -1,5 +1,4 @@
 import mongoose, { Schema } from 'mongoose';
-import Flashcard, {IFlashcard} from "./Flascard";
 
 const userSchema = new Schema({
     email: { type: String, required: true, unique: true },
