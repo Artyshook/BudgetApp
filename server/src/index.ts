@@ -13,7 +13,7 @@ app.use('/', transactionRoutes);
 
 
 const server: Server = http.createServer(app);
-server.listen(5003, () => {
+server.listen(5004, () => {
   const address = server.address() as AddressInfo;
   const port = address.port;
   console.log(`Server running on http://localhost:${port}/`);
