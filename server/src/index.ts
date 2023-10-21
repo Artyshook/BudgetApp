@@ -4,12 +4,14 @@ import http, { Server } from 'http';
 import { AddressInfo } from 'net';
 import './db/mongoose';
 import transactionRoutes from "./routes/transactionRoutes";
+import authenticationRoutes from "./routes/authenticationRoutes";
 
 const app = express();
 app.use(express.json());
 app.use(cors()); // Enable CORS for all routes
 
 app.use('/', transactionRoutes);
+app.use('/', authenticationRoutes);
 
 
 const server: Server = http.createServer(app);
