@@ -2,39 +2,53 @@ import User from "../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
+import {UserDocument} from "./types";
+import {isMongoError} from "./utils/errorUtils";
+import Family from "../models/Family";
 
-export const registerUser = async (
+
+ const registerUser = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   try {
-    const { email, password } = req.body;
-
+    const { email, password, role, familyNickname  } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: "User already exists" });
     }
 
+    const newFamily = new Family({ nickname: familyNickname  });
+    await newFamily.save();
+
+    if (!newFamily._id) {
+      throw new Error('Failed to save family and retrieve its ID.');
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new User({ email, password: hashedPassword });
+    const user = new User({ email, password: hashedPassword, role, familyNickname: newFamily._id });
     await user.save();
 
     return res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error(error);
+    if (isMongoError(error) && error.code === 11000 && error.keyPattern?.nickname) {
+      return res.status(400).json({ error: "Family nickname already exists" });
+    }
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-export const loginUser = async (
+ const loginUser = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }) as UserDocument;
+
     if (!user) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
@@ -54,4 +68,4 @@ export const loginUser = async (
   }
 };
 
-// export { registerUser, loginUser };
+export { registerUser, loginUser };
