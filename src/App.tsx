@@ -1,7 +1,7 @@
-import FlashcardForm from "./components/addFlashcard/FlashcardForm";
+import {SignUp} from "./pages/auth/SingUp";
 
 function App() {
-  return <FlashcardForm />;
+  return <SignUp />;
 }
 
 export default App;
