@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import {UserDocument} from "./types";
-import {isMongoError} from "./utils/errorUtils";
 import Family from "../models/Family";
 
 
@@ -12,14 +11,17 @@ import Family from "../models/Family";
   res: Response
 ): Promise<Response> => {
   try {
-    const { email, password, role, familyNickname  } = req.body;
+    console.log('here on register' )
+    const { username, email, familyName, password} = req.body;
+    console.log({ username, email, familyName, password} )
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: "User already exists" });
     }
 
-    const newFamily = new Family({ nickname: familyNickname  });
+    const newFamily = new Family({ familyName });
     await newFamily.save();
+    console.log('ID:', newFamily._id )
 
     if (!newFamily._id) {
       throw new Error('Failed to save family and retrieve its ID.');
@@ -27,16 +29,16 @@ import Family from "../models/Family";
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new User({ email, password: hashedPassword, role, familyNickname: newFamily._id });
+    const user = new User({ email, password: hashedPassword, username, familyId : newFamily._id });
     await user.save();
 
     return res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error(error);
-    if (isMongoError(error) && error.code === 11000 && error.keyPattern?.nickname) {
-      return res.status(400).json({ error: "Family nickname already exists" });
-    }
-    return res.status(500).json({ error: "Internal Server Error" });
+    // if (isMongoError(error) && error.code === 11000 && error.keyPattern?.familyName) {
+    //   return res.status(400).json({ error: "Family name already exists" });
+    // }
+    return res.status(500).json({ error: error });
   }
 };
 
