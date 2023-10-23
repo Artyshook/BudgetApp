@@ -2,19 +2,19 @@ import mongoose, {Model, Schema} from 'mongoose';
 
 
 export interface IUser extends Document  {
-    name: string
+    username: string
     email: number;
     password: string;
-    role: string
-    familyNickname: string
+    role?: string;
+    familyId : object
 }
 
 const userSchema = new Schema({
-    name: { type: String, required: true },
+    username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: {type: String, required: false},
-    familyNickname: { type: mongoose.Schema.Types.ObjectId, ref: 'Family', required: true },
+    familyId : { type: mongoose.Schema.Types.ObjectId, ref: 'Family', required: true },
 });
 
 const User: Model<IUser> = mongoose.model<IUser, Model<IUser>>('User', userSchema);

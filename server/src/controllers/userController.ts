@@ -14,9 +14,12 @@ export const getUsers = async (req: Request, res: Response): Promise<Response> =
 
 
 export const getUserByEmail = async (req: Request, res: Response): Promise<Response> => {
-    try {
-        const { email } = req.params;
+    console.log('heere')
 
+    try {
+        console.log('heere')
+        const { email } = req.params;
+        console.log('email')
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
