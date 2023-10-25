@@ -1,34 +1,18 @@
-import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import axios from 'axios';
-import debounce from 'lodash/debounce';  // <-- Import debounce from lodash
+import debounce from 'lodash/debounce';
+import {SignUpSchema} from "../../schema";
 
-const validateEmail = debounce(async (value, setFieldError) => {
+export const validateEmail = debounce(async (value) => {
     try {
         const response = await axios.get(`http://localhost:5004/users/get-user-email/${value}`);
-        if (response.data.emailExists) {
-            setFieldError('email', 'Email already exists');
-        }
+        return !response.data.emailExists;  // Return true if email doesn't exist, false otherwise
     } catch (error) {
         console.error('Error checking email:', error);
+        return false;  // Treat any API error as validation failure
     }
 }, 300);
 
-const SignUpSchema = Yup.object().shape({
-    username: Yup.string()
-        .min(3, 'Name must be at least 3 characters long')
-        .required('Required'),
-    familyName: Yup.string().required('Required'),
-    email: Yup.string()
-        .email('Please enter a valid email')
-        .required('Required'),
-    password: Yup.string()
-        .min(6, 'Password must be at least 6 characters long')
-        .required('Required'),
-    confirmPassword: Yup.string()
-        .oneOf([Yup.ref('password'), null], 'Passwords do not match')
-        .required('Required'),
-});
 
 
 export const SingUp = () => {
@@ -41,14 +25,10 @@ export const SingUp = () => {
             password: '',
             confirmPassword: ''
         },
-        validationError: {
-            error: ''
-        },
         onSubmit: async (values,validationError) => {
 
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { confirmPassword, ...dataToSend } = values;
-
             try {
                 await axios.post('http://localhost:5004/auth/register', dataToSend);
                 alert('User created successfully');
@@ -59,6 +39,7 @@ export const SingUp = () => {
         },
         validationSchema: SignUpSchema,
     });
+    console.log('My error here:',formik.errors)
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100 vh', backgroundColor: '#E0E5EC' }}>
@@ -84,16 +65,11 @@ export const SingUp = () => {
                     {...formik.getFieldProps('username')}
                 />
                     {formik.touched.username && formik.errors.username ? formik.errors.username : null}
+
                 <input
                     style={{ width: '100%', padding: '10px', marginBottom: '10px', borderRadius: '5px', border: '1px solid #D1D5DB' }}
                     placeholder="Email"
                     {...formik.getFieldProps('email')}
-                    onBlur={(e) => {
-                        formik.handleBlur(e);
-                        if (e.target.value) {
-                            validateEmail(e.target.value, formik.setFieldError);
-                        }
-                    }}
                 />
                     {formik.touched.email && formik.errors.email ? formik.errors.email : null}
                 <input
