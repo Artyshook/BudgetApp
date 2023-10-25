@@ -1,9 +1,12 @@
-import {SingUp} from "./pages/auth/SingUp";
-import BasicForm from "./pages/auth/BasicForm";
+import React from 'react';
+import {AppRoutes} from "./routing/AppRoutes";
 
 function App() {
-  return <SingUp/>
+  return (
+        <AppRoutes />
+  );
 }
+
 
 export default App;
 

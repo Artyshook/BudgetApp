@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import debounce from 'lodash/debounce';
 import {SignUpSchema} from "../../schema";
+import {Link} from "react-router-dom";
 
 export const validateEmail = debounce(async (value) => {
     try {
@@ -15,7 +16,7 @@ export const validateEmail = debounce(async (value) => {
 
 
 
-export const SingUp = () => {
+export const SignUp = () => {
 
     const formik = useFormik({
         initialValues: {
@@ -39,7 +40,6 @@ export const SingUp = () => {
         },
         validationSchema: SignUpSchema,
     });
-    console.log('My error here:',formik.errors)
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100 vh', backgroundColor: '#E0E5EC' }}>
@@ -109,7 +109,7 @@ export const SingUp = () => {
                 {/*{formik.validationError.error !== '' ? 'error' : 'no error'}*/}
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
                     <p style={{ marginRight: '10px' }}>Already registered?</p>
-                    {/*<Link to="/auth/signIn" style={{ color: '#059669' }}>SignIn</Link>*/}
+                    <Link to="/auth/signin" style={{ color: '#059669' }}>SignIn</Link>
                 </div>
             </form>
         </div>

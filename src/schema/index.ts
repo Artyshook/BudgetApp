@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import {validateEmail} from "../pages/auth/SingUp";
+import {validateEmail} from "../pages/auth/SignUp";
 
 
 export const SignUpSchema = Yup.object().shape({
