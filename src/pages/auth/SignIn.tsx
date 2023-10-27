@@ -1,7 +1,9 @@
-import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import UseRedirect from "../../hooks/UseRedirect";
+import { useNavigate } from 'react-router-dom';
+import {useCookies} from "react-cookie";
 
 const SignInSchema = Yup.object().shape({
     email: Yup.string()
@@ -12,50 +14,81 @@ const SignInSchema = Yup.object().shape({
         .required('Required')
 });
 
+const handleSubmit = async (values, { setSubmitting, setFieldError }, setCookie, navigate) => {
+    try {
+        const response = await axios.post('http://localhost:5004/auth/login', values);
+        if (response.data.token) {
+            setCookie('token', response.data.token);
+            navigate('/');
+
+        } else {
+            setFieldError('email', 'Invalid email or password.');
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+    }
+    setSubmitting(false);
+};
+
+const SignInFormBody = ({ isSubmitting }) => (
+    <Form style={{
+        maxWidth: '400px',
+        margin: '0 auto',
+        padding: '20px',
+        boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+        borderRadius: '8px'
+    }}>
+        <div style={{ marginBottom: '15px' }}>
+            <label htmlFor="email">Email:</label>
+            <Field type="email" name="email" style={{
+                width: '100%',
+                padding: '10px',
+                border: '1px solid #ccc',
+                borderRadius: '4px',
+                marginTop: '5px'
+            }} />
+            <ErrorMessage name="email" component="div" style={{ color: 'red', fontSize: '12px', marginTop: '5px' }} />
+        </div>
+        <div style={{ marginBottom: '15px' }}>
+            <label htmlFor="password">Password:</label>
+            <Field type="password" name="password" style={{
+                width: '100%',
+                padding: '10px',
+                border: '1px solid #ccc',
+                borderRadius: '4px',
+                marginTop: '5px'
+            }} />
+            <ErrorMessage name="password" component="div" style={{ color: 'red', fontSize: '12px', marginTop: '5px' }} />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+            <button type="submit" disabled={isSubmitting} style={{
+                backgroundColor: '#007BFF',
+                color: 'white',
+                padding: '10px 20px',
+                border: 'none',
+                borderRadius: '4px'
+            }}>
+                Sign In
+            </button>
+        </div>
+    </Form>
+);
+
 export const SignIn = () => {
+
+    UseRedirect();
+
+    const navigate = useNavigate();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [cookies, setCookie] = useCookies(['token']);
+
     return (
         <Formik
-            initialValues={{
-                email: '',
-                password: ''
-            }}
+            initialValues={{ email: '', password: '' }}
             validationSchema={SignInSchema}
-            onSubmit={async (values, { setSubmitting, setFieldError }) => {
-                try {
-                    const response = await axios.post('http://localhost:5004/auth/login', values);
-                    if (response.data.success) {
-                        // Handle success - redirect, show message, etc.
-                    } else {
-                        // Handle login errors, e.g. wrong password, email not registered, etc.
-                        setFieldError('email', 'Invalid email or password.');
-                    }
-                } catch (error) {
-                    console.error('Login error:', error);
-                    // Handle other API errors
-                }
-                setSubmitting(false);
-            }}
+            onSubmit={(values, formikHelpers) => handleSubmit(values, formikHelpers, setCookie, navigate)}
         >
-            {({ isSubmitting }) => (
-                <Form>
-                    <div>
-                        <label htmlFor="email">Email:</label>
-                        <Field type="email" name="email" />
-                        <ErrorMessage name="email" component="div" />
-                    </div>
-                    <div>
-                        <label htmlFor="password">Password:</label>
-                        <Field type="password" name="password" />
-                        <ErrorMessage name="password" component="div" />
-                    </div>
-                    <div>
-                        <button type="submit" disabled={isSubmitting}>
-                            Sign In
-                        </button>
-                    </div>
-                </Form>
-            )}
+            {props => <SignInFormBody {...props} />}
         </Formik>
     );
 };
-
