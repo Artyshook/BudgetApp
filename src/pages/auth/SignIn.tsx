@@ -14,11 +14,15 @@ const SignInSchema = Yup.object().shape({
         .required('Required')
 });
 
-const handleSubmit = async (values, { setSubmitting, setFieldError }, setCookie, navigate) => {
+
+const handleSubmit = async (data, { setSubmitting, setFieldError }, setCookie, navigate) => {
     try {
-        const response = await axios.post('http://localhost:5004/auth/login', values);
+        const response = await axios.post('http://localhost:5004/auth/login', data);
         if (response.data.token) {
+            console.log(response.data.userID, response.data.userRole)
             setCookie('token', response.data.token);
+            window.localStorage.setItem('userID', response.data.userID);
+            window.localStorage.setItem('userRole', response.data.userRole);
             navigate('/');
 
         } else {
