@@ -14,12 +14,9 @@ export const getUsers = async (req: Request, res: Response): Promise<Response> =
 
 
 export const getUserByEmail = async (req: Request, res: Response): Promise<Response> => {
-    console.log('heere')
 
     try {
-        console.log('heere')
         const { email } = req.params;
-        console.log('email')
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
@@ -33,3 +30,17 @@ export const getUserByEmail = async (req: Request, res: Response): Promise<Respo
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+export const getUserByID = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const {userID} = req.params
+        console.log('here in id', userID)
+        const user = await User.findOne({ _id: userID });
+        return res.json({user})
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+}
