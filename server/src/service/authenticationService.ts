@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import Family from "../models/Family";
 import {UserDocument} from "../controllers/types";
 
+
 const register = async (username: string, email: string, familyName: string, password: string) => {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -19,7 +20,7 @@ const register = async (username: string, email: string, familyName: string, pas
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new User({ email, password: hashedPassword, username, familyId: newFamily._id });
+    const user = new User({ email, password: hashedPassword, username, familyID: newFamily._id, role: 'ADMIN' });
     await user.save();
 };
 

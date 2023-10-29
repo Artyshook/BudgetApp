@@ -11,9 +11,7 @@ export const AuthenticatedRoutes = () => {
             <Header />
 
             <Routes>
-                <Route path="/signin" element={<SignIn/>} />
-                <Route path="/signup" element={<SignUp/>} />
-                {/* Other authentication-related routes go here */}
+
             </Routes>
         </>
     );

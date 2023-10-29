@@ -9,7 +9,6 @@ import {UserDocument} from "./types";
 const registerUser = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { username, email, familyName, password } = req.body;
-
     await authenticationService.register(username, email, familyName, password);
 
     return res.status(201).json({ message: "User registered successfully" });

@@ -60,9 +60,9 @@ const Header = () => {
         </div>
       </Link>
       <div className="flex flex-row items-center justify-center space-x-5 md:space-x-10 md:px-10 px-5 ">
-        {/*<div className="border md:px-2 md:py-1 py-0.5 px-1 rounded-xl md:text-l text-sm border-pink-500	">*/}
-        {/*  {userRole}*/}
-        {/*</div>*/}
+        <div className="border md:px-2 md:py-1 py-0.5 px-1 rounded-xl md:text-l text-sm border-pink-500	">
+          {userRole}
+        </div>
         <div className="md:text-xl text-sm">{userData?.username}</div>
         <div className="md:text-xl text-sm">{userData?.username}</div>
         <button

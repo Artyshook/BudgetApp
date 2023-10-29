@@ -5,7 +5,6 @@ import {UnauthenticatedRoutes} from "./routing/UnauthenticatedRoutes";
 import {AuthenticatedRoutes} from "./routing/AuthenticatedRoutes";
 
 function App() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie] = useCookies(['token']);
   const isLoggedIn = !!cookies.token;
 
