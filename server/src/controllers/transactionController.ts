@@ -3,9 +3,10 @@
 
 
     const getTransactions = async (req: Request, res: Response) => {
-        console.log('here!!!!')
+        console.log('here: ID')
         try {
             const { monthYear, userID } = req.query;
+            console.log(userID)
             if(!userID) return res.status(400).json({ message: 'No userId provided' });
 
             const date = new Date(monthYear as string);

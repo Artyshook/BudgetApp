@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 export interface UserData {
   id: string;
   email: string;
-  familtyID: string;
+  familyID: string;
   username: string;
   role: string;
 }
@@ -18,7 +18,7 @@ export const initialUserData = {
   username: '',
   email: '',
   role: '',
-  familtyID: '',
+  familyID: '',
 };
 
 const Header = () => {
