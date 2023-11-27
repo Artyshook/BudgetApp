@@ -44,7 +44,6 @@ const BasicForm = () => {
         onSubmit,
     });
 
-    console.log(errors);
 
     return (
         <form onSubmit={handleSubmit} autoComplete="off">
@@ -60,6 +59,7 @@ const BasicForm = () => {
             />
             {errors.email && touched.email && <p className="error">{errors.email}</p>}
             <label htmlFor="age">Age</label>
+
             <input
                 id="age"
                 type="number"
@@ -101,6 +101,7 @@ const BasicForm = () => {
             <button disabled={isSubmitting} type="submit">
                 Submit
             </button>
+                        <div>ssss</div>;
         </form>
     );
 };

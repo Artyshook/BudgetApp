@@ -10,7 +10,7 @@ function App() {
 
   return (
       <div className=" bg-white bg-cover min-h-screen">
-        <BrowserRouter>
+          <BrowserRouter>
           {isLoggedIn ? <AuthenticatedRoutes /> : <UnauthenticatedRoutes />}
         </BrowserRouter>
       </div>
