@@ -8,9 +8,9 @@ import {
 
 const router = express.Router();
 
-router.get('/transactions', getTransactions);
-router.post('/transaction', addTransaction);
-router.put('/transaction/:id', updateTransaction);
-router.delete('/transaction/:id', deleteTransaction);
+router.get('/transaction/get-transactions', getTransactions);
+router.post('/transaction/add-transaction', addTransaction);
+router.put('/transaction/update-transaction', updateTransaction);
+router.delete('/transaction/delete-transaction/:id', deleteTransaction);
 
 export default router;

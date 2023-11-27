@@ -22,6 +22,7 @@ export const initialUserData = {
 };
 
 const Header = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cookies, setCookie] = useCookies(['token'])
   const navigate = useNavigate()
 
@@ -38,7 +39,6 @@ const Header = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       const userID = window.localStorage.getItem('userID')
-      console.log('',userID)
       try {
         const response = await axios.get(
           `http://localhost:5004/get-user/${userID}`,

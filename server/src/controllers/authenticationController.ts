@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import authenticationService from "../service/authenticationService";
-import {util} from "zod";
-import find = util.find;
 import User from "../models/User";
 import {UserDocument} from "./types";
 
